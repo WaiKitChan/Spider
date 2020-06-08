@@ -13,7 +13,7 @@
 #define DEAL_PER2DECK		5
 #define DEAL_SIZE			PILE_NUM
 #define PILE_NUM			10
-#define PILE_HEIGHT			20
+#define PILE_HEIGHT			26
 #define PILE_MAX			52
 #define CARD_MAX			208
 
@@ -22,7 +22,7 @@
 #define G_PADDING			28
 #define CARD_WIDTH			100
 #define CARD_HEIGHT			140
-#define CARD_SPACE			14
+#define CARD_SPACE			18
 
 #define ID_MAINMENU			100
 #define ID_SAVE				102
