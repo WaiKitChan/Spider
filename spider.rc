@@ -1,0 +1,57 @@
+#include"main.h"
+
+ID_MAINMENU MENU {
+	POPUP "&File" {
+		MENUITEM "Load &Recent",ID_LOADRECENT,GRAYED
+		MENUITEM SEPARATOR
+		POPUP "&Save" {
+			MENUITEM "Slot &1",ID_SAVE1
+			MENUITEM "Slot &2",ID_SAVE2
+			MENUITEM "Slot &3",ID_SAVE3
+		}
+		POPUP "&Load" {
+			MENUITEM "Slot &1",ID_LOAD1,GRAYED
+			MENUITEM "Slot &2",ID_LOAD2,GRAYED
+			MENUITEM "Slot &3",ID_LOAD3,GRAYED
+		}
+		MENUITEM SEPARATOR
+		MENUITEM "E&xit",ID_EXIT
+	}
+	MENUITEM "&Start",ID_START
+	POPUP "&Mode" {
+		MENUITEM "&Standard",ID_2DECK,CHECKED
+		MENUITEM "&Giant",ID_4DECK
+		MENUITEM SEPARATOR
+		MENUITEM "&1 Suit",ID_1SUIT
+		MENUITEM "&2 Suits",ID_2SUIT
+		MENUITEM "&3 Suits",ID_3SUIT
+		MENUITEM "&4 Suits",ID_4SUIT,CHECKED
+	}
+	POPUP "&Texture" {
+		POPUP "&Background" {
+			MENUITEM "&Standard",ID_STANDARD,CHECKED
+			MENUITEM "&Night",ID_NIGHT
+			MENUITEM "&Cosmos",ID_COSMOS
+			MENUITEM "&Think",ID_THINK
+		}
+		POPUP "&Card" {
+			MENUITEM "&Blue",ID_BLUE,CHECKED
+			MENUITEM "&Red",ID_RED
+			MENUITEM "&Green",ID_GREEN
+			MENUITEM "&Purple",ID_PURPLE
+			MENUITEM "&Cyan",ID_CYAN
+			MENUITEM "&Yellow",ID_YELLOW
+			MENUITEM "&Silver",ID_SILVER
+		}
+		MENUITEM "&Afterimage",ID_AFTERIMAGE
+	}
+}
+
+BM_GREEN BITMAP "bmp/green.bmp" 
+BM_NIGHT BITMAP "bmp/night.bmp"
+BM_COSMOS BITMAP "bmp/cosmos.bmp"
+BM_THINK BITMAP "bmp/think.bmp"
+
+BM_CARD BITMAP "bmp/card.bmp"
+BM_BACK BITMAP "bmp/back.bmp"
+BM_MASK BITMAP "bmp/mask.bmp"
