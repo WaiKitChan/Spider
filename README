@@ -1,8 +1,9 @@
 # Spider
 My own version of spider patience (with inspiration drawn from Microsoft Solitaire).
 
-Not much is different from the well known Microsoft version of spider, except I have
-added giant mode (4 decks), 3 suit mode and my own graphics.
+Not much is different from the well known Microsoft version of spider, except that I
+have added giant mode (4 decks), 3 suit mode and my own graphics. The famous victory
+animation has also been recreated!
 
 This project was originally developped by me using Dev-C++. If one wishes to build it
 into an executable, he may have to add Spider.ico into spider.rc and modify line 230
