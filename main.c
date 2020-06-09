@@ -16,7 +16,7 @@ LRESULT CALLBACK WndProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam) {
 	static PDEAL deal;
 	static PSTACK stack;
 	static PTEXTURE texture;
-	static BYTE suit=4,bg=0;
+	static BYTE suit=4;
 	switch(msg) {
 		case WM_PAINT:
 			BeginPaint(hwnd,&ps);
@@ -120,7 +120,6 @@ LRESULT CALLBACK WndProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam) {
 				case ID_COSMOS:
 				case ID_THINK:{
 					int i,cmd=LOWORD(wParam)-ID_BACKGROUND;
-					bg=cmd;
 					for(i=0;i<4;++i)CheckMenuItem(hMenu,ID_BACKGROUND+i,i==cmd?MF_CHECKED:MF_UNCHECKED);
 					UpdateBackground(texture,GetModuleHandle(NULL),MAKEINTRESOURCE(BM_BACKGROUND+cmd));
 					InvalidateRect(hwnd,NULL,FALSE);
