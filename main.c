@@ -3,6 +3,7 @@
 #include<stdio.h>
 #include<time.h>
 #include"main.h"
+BYTE deck=2;
 #include"system.h"
 #include"save.h"
 
@@ -15,14 +16,14 @@ LRESULT CALLBACK WndProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam) {
 	static PDEAL deal;
 	static PSTACK stack;
 	static PTEXTURE texture;
-	static BYTE deck=2,suit=4;
+	static BYTE suit=4,bg=0;
 	switch(msg) {
 		case WM_PAINT:
 			BeginPaint(hwnd,&ps);
-			if(stack->victory)BitBlt(ps.hdc,0,0,G_WIDTH,G_HEIGHT,stack->hdcVictory,0,0,SRCCOPY);
+			if(stack->victory)BitBlt(ps.hdc,0,0,G_WIDTH,G_HEIGHT(deck),stack->hdcVictory,0,0,SRCCOPY);
 			else {
 				int i;
-				BitBlt(ps.hdc,0,0,G_WIDTH,G_HEIGHT,texture->bg,0,0,SRCCOPY);
+				BitBlt(ps.hdc,0,0,G_WIDTH,G_HEIGHT(deck),texture->bg,0,0,SRCCOPY);
 				BitBlt(ps.hdc,deal->rc.left,deal->rc.top,deal->rc.right-deal->rc.left,CARD_HEIGHT,deal->hdc,0,0,SRCCOPY);
 				BitBlt(ps.hdc,stack->rc.left,stack->rc.top,stack->rc.right-stack->rc.left,CARD_HEIGHT,stack->hdc,0,0,SRCCOPY);
 				for(i=0;i<PILE_NUM;++i)BitBlt(ps.hdc,piles[i].rc.left,piles[i].rc.top,CARD_WIDTH,piles[i].rc.bottom-piles[i].rc.top,piles[i].hdc,0,0,SRCCOPY);
@@ -57,15 +58,25 @@ LRESULT CALLBACK WndProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam) {
 				case ID_LOADRECENT:
 				case ID_LOAD1:
 				case ID_LOAD2:
-				case ID_LOAD3:
+				case ID_LOAD3:{
 					if(stack->victory){
 						KillTimer(hwnd,TIMER_LAUNCH);
 						KillTimer(hwnd,TIMER_PHYSICS);
 						EnableMenuItem(GetSubMenu(hMenu,0),2,MF_BYPOSITION|MF_ENABLED);
 					}
 					LoadSlot(LOWORD(wParam)-ID_LOAD,pool,deal,stack,piles,hold,texture);
+					/* RESIZE WINDOW */
+					RECT rc={0,0,G_WIDTH,G_HEIGHT(deck)},wrc;
+					AdjustWindowRect(&rc,WS_VISIBLE|WS_OVERLAPPED|WS_CAPTION|WS_MINIMIZEBOX|WS_SYSMENU,TRUE);
+					GetWindowRect(hwnd,&wrc);
+					MoveWindow(hwnd,wrc.left,wrc.top,rc.right-rc.left,rc.bottom-rc.top,FALSE);
 					InvalidateRect(hwnd,NULL,FALSE);
+					stack->rc.bottom=G_HEIGHT(deck)-G_PADDING;
+					stack->rc.top=stack->rc.bottom-CARD_HEIGHT;
+					deal->rc.bottom=G_HEIGHT(deck)-G_PADDING;
+					deal->rc.top=deal->rc.bottom-CARD_HEIGHT;
 					break;
+				}	
 				case ID_2DECK:
 				case ID_4DECK:{
 					int i,cmd=LOWORD(wParam)-ID_0DECK;
@@ -82,7 +93,7 @@ LRESULT CALLBACK WndProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam) {
 					for(i=1;i<=4;++i)CheckMenuItem(hMenu,ID_0SUIT+i,i==cmd?MF_CHECKED:MF_UNCHECKED);
 					break;
 				}
-				case ID_START:
+				case ID_START:{
 					if(stack->victory){
 						KillTimer(hwnd,TIMER_LAUNCH);
 						KillTimer(hwnd,TIMER_PHYSICS);
@@ -92,13 +103,24 @@ LRESULT CALLBACK WndProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam) {
 						EnableMenuItem(hMenu,ID_LOADRECENT,MF_ENABLED);
 					}
 					InitGame(deck,suit,pool,piles,deal,stack,hold,texture);
+					/* RESIZE WINDOW */
+					RECT rc={0,0,G_WIDTH,G_HEIGHT(deck)},wrc;
+					AdjustWindowRect(&rc,WS_VISIBLE|WS_OVERLAPPED|WS_CAPTION|WS_MINIMIZEBOX|WS_SYSMENU,TRUE);
+					GetWindowRect(hwnd,&wrc);
+					MoveWindow(hwnd,wrc.left,wrc.top,rc.right-rc.left,rc.bottom-rc.top,FALSE);
 					InvalidateRect(hwnd,NULL,FALSE);
+					stack->rc.bottom=G_HEIGHT(deck)-G_PADDING;
+					stack->rc.top=stack->rc.bottom-CARD_HEIGHT;
+					deal->rc.bottom=G_HEIGHT(deck)-G_PADDING;
+					deal->rc.top=deal->rc.bottom-CARD_HEIGHT;
 					break;
+				}	
 				case ID_STANDARD:
 				case ID_NIGHT:
 				case ID_COSMOS:
 				case ID_THINK:{
 					int i,cmd=LOWORD(wParam)-ID_BACKGROUND;
+					bg=cmd;
 					for(i=0;i<4;++i)CheckMenuItem(hMenu,ID_BACKGROUND+i,i==cmd?MF_CHECKED:MF_UNCHECKED);
 					UpdateBackground(texture,GetModuleHandle(NULL),MAKEINTRESOURCE(BM_BACKGROUND+cmd));
 					InvalidateRect(hwnd,NULL,FALSE);
@@ -193,6 +215,16 @@ LRESULT CALLBACK WndProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam) {
 			ReleaseDC(hwnd,hdc);
 			if(save.recent)LoadSlot(0,pool,deal,stack,piles,hold,texture);
 			else InitGame(deck,suit,pool,piles,deal,stack,hold,texture);
+			
+			/* RESIZE WINDOW */
+			RECT rc={0,0,G_WIDTH,G_HEIGHT(deck)},wrc;
+			AdjustWindowRect(&rc,WS_VISIBLE|WS_OVERLAPPED|WS_CAPTION|WS_MINIMIZEBOX|WS_SYSMENU,TRUE);
+			GetWindowRect(hwnd,&wrc);
+			MoveWindow(hwnd,wrc.left,wrc.top,rc.right-rc.left,rc.bottom-rc.top,FALSE);
+			stack->rc.bottom=G_HEIGHT(deck)-G_PADDING;
+			stack->rc.top=stack->rc.bottom-CARD_HEIGHT;
+			deal->rc.bottom=G_HEIGHT(deck)-G_PADDING;
+			deal->rc.top=deal->rc.bottom-CARD_HEIGHT;
 			break;
 		}
 		case WM_CLOSE:DestroyWindow(hwnd);break;
@@ -234,7 +266,7 @@ int WINAPI WinMain(HINSTANCE hInst,HINSTANCE hPrevInst,LPSTR lpCmdLine,int nCmdS
 		return 0;
 	}
 	
-	RECT rc={0,0,G_WIDTH,G_HEIGHT};
+	RECT rc={0,0,G_WIDTH,G_HEIGHT(4)};
 	AdjustWindowRect(&rc,WS_VISIBLE|WS_OVERLAPPED|WS_CAPTION|WS_MINIMIZEBOX|WS_SYSMENU,TRUE);
 	hwnd=CreateWindow("WindowClass","Ultra Spider Patience HD",WS_VISIBLE|WS_OVERLAPPED|WS_CAPTION|WS_MINIMIZEBOX|WS_SYSMENU,10,10,rc.right-rc.left,rc.bottom-rc.top,NULL,NULL,hInst,NULL);
 	if(hwnd==NULL){
