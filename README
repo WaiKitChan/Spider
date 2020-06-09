@@ -10,6 +10,7 @@ into an executable, he may have to add Spider.ico into spider.rc and modify line
 of main.c.
 
 Despite being called "Ultra Spider Patience HD" by me, it is in fact not HD.
+Required screen resolution: 1080p.
 
 The executable creates a hidden save file spider.sav locally (in the same directory as
 the executable).
