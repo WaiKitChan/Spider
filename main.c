@@ -73,8 +73,8 @@ LRESULT CALLBACK WndProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam) {
 					InvalidateRect(hwnd,NULL,FALSE);
 					stack->rc.bottom=G_HEIGHT(deck)-G_PADDING;
 					stack->rc.top=stack->rc.bottom-CARD_HEIGHT;
-					deal->rc.bottom=G_HEIGHT(deck)-G_PADDING;
-					deal->rc.top=deal->rc.bottom-CARD_HEIGHT;
+					deal->rcHit.bottom=deal->rc.bottom=G_HEIGHT(deck)-G_PADDING;
+					deal->rcHit.top=deal->rc.top=deal->rc.bottom-CARD_HEIGHT;
 					break;
 				}	
 				case ID_2DECK:
@@ -111,8 +111,8 @@ LRESULT CALLBACK WndProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam) {
 					InvalidateRect(hwnd,NULL,FALSE);
 					stack->rc.bottom=G_HEIGHT(deck)-G_PADDING;
 					stack->rc.top=stack->rc.bottom-CARD_HEIGHT;
-					deal->rc.bottom=G_HEIGHT(deck)-G_PADDING;
-					deal->rc.top=deal->rc.bottom-CARD_HEIGHT;
+					deal->rcHit.bottom=deal->rc.bottom=G_HEIGHT(deck)-G_PADDING;
+					deal->rcHit.top=deal->rc.top=deal->rc.bottom-CARD_HEIGHT;
 					break;
 				}	
 				case ID_STANDARD:
@@ -222,8 +222,8 @@ LRESULT CALLBACK WndProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam) {
 			MoveWindow(hwnd,wrc.left,wrc.top,rc.right-rc.left,rc.bottom-rc.top,FALSE);
 			stack->rc.bottom=G_HEIGHT(deck)-G_PADDING;
 			stack->rc.top=stack->rc.bottom-CARD_HEIGHT;
-			deal->rc.bottom=G_HEIGHT(deck)-G_PADDING;
-			deal->rc.top=deal->rc.bottom-CARD_HEIGHT;
+			deal->rcHit.bottom=deal->rc.bottom=G_HEIGHT(deck)-G_PADDING;
+			deal->rcHit.top=deal->rc.top=deal->rc.bottom-CARD_HEIGHT;
 			break;
 		}
 		case WM_CLOSE:DestroyWindow(hwnd);break;
