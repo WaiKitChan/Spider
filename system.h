@@ -94,7 +94,7 @@ PDEAL CreateDeal(HDC hdc) {
 	PDEAL deal=(PDEAL)malloc(sizeof(DEAL));
 	deal->rc.right=G_WIDTH-G_PADDING;
 	deal->rc.left=deal->rc.right-CARD_WIDTH;
-	deal->rc.bottom=G_HEIGHT(deck)-G_PADDING;
+	deal->rc.bottom=G_HEIGHT(4)-G_PADDING;
 	deal->rc.top=deal->rc.bottom-CARD_HEIGHT;
 	deal->rcHit=deal->rc;
 	deal->hdc=CreateCompatibleDC(hdc);
@@ -126,14 +126,14 @@ PSTACK CreateStack(HDC hdc) {
 	PSTACK stack=(PSTACK)malloc(sizeof(STACK));
 	stack->rc.left=G_PADDING;
 	stack->rc.right=G_PADDING;
-	stack->rc.bottom=G_HEIGHT(deck)-G_PADDING;
+	stack->rc.bottom=G_HEIGHT(4)-G_PADDING;
 	stack->rc.top=stack->rc.bottom-CARD_HEIGHT;
 	stack->hdc=CreateCompatibleDC(hdc);
 	HBITMAP hbm=CreateCompatibleBitmap(hdc,CARD_WIDTH+CARD_SPACE*(SUIT_MAX-1),CARD_HEIGHT);
 	stack->hOld=SelectObject(stack->hdc,hbm);
 	
 	stack->hdcVictory=CreateCompatibleDC(hdc);
-	HBITMAP hbmV=CreateCompatibleBitmap(hdc,G_WIDTH,G_HEIGHT(deck));
+	HBITMAP hbmV=CreateCompatibleBitmap(hdc,G_WIDTH,G_HEIGHT(4));
 	stack->hOldV=SelectObject(stack->hdcVictory,hbmV);
 	return stack;
 }
@@ -206,7 +206,7 @@ void UpdateBackground(PTEXTURE texture,HINSTANCE hInst,LPCSTR lpbg) {
 	HBITMAP hbmbg=LoadBitmap(hInst,lpbg);
 	HBRUSH hbr=CreatePatternBrush(hbmbg);
 	DeleteObject(hbmbg);
-	RECT rc={0,0,G_WIDTH,G_HEIGHT(deck)};
+	RECT rc={0,0,G_WIDTH,G_HEIGHT(4)};
 	FillRect(texture->bg,&rc,hbr);
 	DeleteObject(hbr);
 }
@@ -470,7 +470,7 @@ void InitGame(BYTE deck,BYTE suit,PCARD pool,PPILE piles,PDEAL deal,PSTACK stack
 }
 
 void Victory(HWND hwnd,PSTACK stack,PTEXTURE texture) {
-	BitBlt(stack->hdcVictory,0,0,G_WIDTH,G_HEIGHT(deck),texture->bg,0,0,SRCCOPY);
+	BitBlt(stack->hdcVictory,0,0,G_WIDTH,G_HEIGHT(4),texture->bg,0,0,SRCCOPY);
 	BitBlt(stack->hdcVictory,stack->rc.left,stack->rc.top,stack->rc.right-stack->rc.left,CARD_HEIGHT,stack->hdc,0,0,SRCCOPY);
 	int i,suit_num=stack->goal;
 	stack->goal*=FULLRANK;
