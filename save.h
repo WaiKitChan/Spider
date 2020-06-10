@@ -69,8 +69,6 @@ void SaveSlot(int slot_num,PCARD pool,PDEAL deal,PSTACK stack,PPILE piles) {
 void LoadSlot(int slot_num,PCARD pool,PDEAL deal,PSTACK stack,PPILE piles,PHOLD hold,PTEXTURE texture) {
 	int i,j;
 	FILE *f=fopen(DefaultSave,"rb+");
-	fseek(f,2,SEEK_SET);
-	deck=(BYTE)fgetc(f);
 	fseek(f,sizeof(SAVE)+sizeof(SLOT)*slot_num,SEEK_SET);
 	char data[sizeof(SLOT)];
 	for(i=0;i<sizeof(SLOT);++i)data[i]=fgetc(f);
